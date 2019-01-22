@@ -30,15 +30,24 @@
 #include <vector>
 using namespace std;
 class Solution {
-public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-           vector<vector<int>> vRet;         
-           if (nums.size() == 0) {
-               //如果nums.size() == 0
-               //即数组为空
-               return vRet;
-           }
-           getSubsets(nums, nums.size());
+	public:
+		vector<vector<int>> subsets(vector<int>& nums) {
+			vector<vector<int>> vRet;         
+			if (nums.size() == 0) {
+				//如果nums.size() == 0
+				//即数组为空
+				return vRet;
+			}
+			//如果有元素
+			// 从空集开始向上算
+			// 循环次数表示的是子集中的元素个数
+			for (int i = 0; i < nums.size(); i++) 
+			{
+				vector<int> temp;
+				temp.resize(i);
+
+			}
+
            return vRet;
 
     }
