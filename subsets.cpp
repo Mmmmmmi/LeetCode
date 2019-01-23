@@ -54,18 +54,18 @@ private:
             
         }
         // 不选S[step]
-         subsets(S, path, step + 1, result);
+        subsets(S, path, step + 1, result);
         // // 选S[step]
-         path.push_back(S[step]);
-         cout << "cout << path: " << endl;
-         for (auto e : path)
-         {
-             cout << e;
-         }
-         cout << endl;
-         subsets(S, path, step + 1, result);
-         path.pop_back();
-         // 
+        path.push_back(S[step]);
+        cout << "cout << path: " << endl;
+        for (auto e : path)
+        {
+            cout << e;
+        }
+        cout << endl;
+        subsets(S, path, step + 1, result);
+        path.pop_back();
+        // 
     }
 
 };
