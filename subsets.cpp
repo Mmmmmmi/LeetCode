@@ -28,34 +28,51 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 class Solution {
-	public:
-		vector<vector<int>> subsets(vector<int>& nums) {
-			vector<vector<int>> vRet;         
-			if (nums.size() == 0) {
-				//如果nums.size() == 0
-				//即数组为空
-				return vRet;
-			}
-			//如果有元素
-			// 从空集开始向上算
-			// 循环次数表示的是子集中的元素个数
-			for (int i = 0; i < nums.size(); i++) 
-			{
-				vector<int> temp;
-				temp.resize(i);
-
-			}
-
-           return vRet;
-
+public:
+    vector<vector<int> > subsets(vector<int> &S) {
+        sort(S.begin(), S.end()); // 输出要求有序
+        vector<vector<int> > result;
+        vector<int> path;
+        subsets(S, path, 0, result);
+        return result;
     }
+private:
+    static void subsets(const vector<int> &S, vector<int> &path, size_t step,
+                        vector<vector<int> > &result) {
+        if (step == S.size()) {
+            result.push_back(path);
+            cout << "cout << path: " << endl;
+            for (auto e : path)
+            {
+                cout << e;
+            }
+            cout << endl;
+            return;
+            
+        }
+        // 不选S[step]
+         subsets(S, path, step + 1, result);
+        // // 选S[step]
+         path.push_back(S[step]);
+         cout << "cout << path: " << endl;
+         for (auto e : path)
+         {
+             cout << e;
+         }
+         cout << endl;
+         subsets(S, path, step + 1, result);
+         path.pop_back();
+         // 
+    }
+
 };
-
-
-
 int main()
 {
-
+    vector<int> v = {1, 2};
+    Solution s;
+    vector<vector<int>> vret;
+    vret = s.subsets(v);
 }
