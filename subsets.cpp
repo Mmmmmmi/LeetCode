@@ -65,7 +65,6 @@ private:
         cout << endl;
         subsets(S, path, step + 1, result);
         path.pop_back();
-        // 
     }
 
 };
