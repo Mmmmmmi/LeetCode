@@ -1,3 +1,3 @@
 
-merge:merge.cpp
+maxDepth:maxDepth.cpp
 	g++ -g -Wall -std=c++11  $^ -o $@
