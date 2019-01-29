@@ -37,4 +37,3 @@ int main()
     printf("%d\n", MaxSubArray(nums, numsSize));
     return 0;
 }
-
