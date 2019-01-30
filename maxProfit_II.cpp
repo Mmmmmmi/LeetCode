@@ -40,15 +40,39 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         //动态规划问题
-            
+        int  sumprofit = 0;  //利益和  
+        int maxprofit = 0;   //最大利益
+        int  profit = 0;     //利益
+        size_t  buyday = 0;     //购买日期
+        size_t  sellday = 0;    //出售日期
+        //只要有低于买入的 就出售
+        while(buyday < prices.size()) {
+            //临时收益等于当天的减去买入的
+            profit = prices[sellday] - prices[buyday];
+            if (profit > maxprofit) {
+                //售出高于买入
+                maxprofit = profit;
+                sellday++;
+            }else if (profit < maxprofit){
+                //只要有亏损就直接重新购入
+                sumprofit += maxprofit;
+                maxprofit = 0;
+                buyday = sellday;
+            }else {
+                buyday++;
+                sellday = buyday;
+            }
+        }
+        return sumprofit;
     }
-    
 };
 
 
 int main()
 {
-    std::cout << "Hello world" << std::endl;
+    vector<int> prices{7, 1, 5, 3, 6, 4};
+    Solution s;
+    cout << s.maxProfit(prices) << endl;
     return 0;
 }
 
