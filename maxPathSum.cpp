@@ -50,7 +50,20 @@ struct TreeNode {
 };
 class Solution {
 public:
-    int maxPathSum(TreeNode* root) {
+    int maxPathSum(TreeNode* root) 
+    {
+        int ret = 0;
+        if (root == NULL) {
+            return 0;
+        }
+        ret = getSum();
+        return ret;
+    }
+private:
+    int getSum()
+    {
+
+
     }
 };
 
