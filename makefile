@@ -1,3 +1,3 @@
 
-maxProfit_II:maxProfit_II.cpp
+hasCycle:hasCycle.cpp
 	g++ -g -Wall -std=c++11  $^ -o $@
