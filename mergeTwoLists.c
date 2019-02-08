@@ -28,7 +28,6 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
     struct ListNode* cur1 = NULL;
     struct ListNode* cur2 = NULL;
     struct ListNode* curret = NULL;
-    struct ListNode* temp = NULL;
     if (l1 == NULL) {
         return l2;
     }  
