@@ -35,35 +35,31 @@ struct ListNode {
 class Solution {
 public:
     ListNode* sortList(ListNode* head) {
-        ListNode *mid = NULL;
-        ListNode *cur = NULL;
-        ListNode *end = NULL;
         if (head == NULL || head->next == NULL) {
             return head;
         }
-        mid = head;
-        cur = head;
-        while(cur != NULL && cur->next != NULL) {
-            cur = cur->next->next;
-            mid = mid->next;
-        }
-        sort(head, mid, end);
+        sort(head, NULL);
         return head;
     }
 private:
-    void sort(ListNode *head, ListNode *mid, ListNode *end)
+    void sort(ListNode *head, ListNode *end)
     {
         struct ListNode *fast = NULL;
         struct ListNode *slow = NULL;
-        if(head == NULL || head->next == NULL) {
+        if(head == end || head->next == end) {
             return;
         }
         fast = head;
         slow = head;
-        sort(head, mid, end);
+        while(fast && fast->next != end) {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        sort(head, slow);
         //走到这里 说明 fast 走到最后 slow 走到一半
-        
+        sort(slow, end);
 
+        merge(head, slow, slow, end);
     }
     
 };
