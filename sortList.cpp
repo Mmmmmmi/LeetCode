@@ -35,14 +35,23 @@ struct ListNode {
 class Solution {
 public:
     ListNode* sortList(ListNode* head) {
+        ListNode *mid = NULL;
+        ListNode *cur = NULL;
+        ListNode *end = NULL;
         if (head == NULL || head->next == NULL) {
             return head;
         }
-        sort(head);
+        mid = head;
+        cur = head;
+        while(cur != NULL && cur->next != NULL) {
+            cur = cur->next->next;
+            mid = mid->next;
+        }
+        sort(head, mid, end);
         return head;
     }
 private:
-    void sort(ListNode *head)
+    void sort(ListNode *head, ListNode *mid, ListNode *end)
     {
         struct ListNode *fast = NULL;
         struct ListNode *slow = NULL;
@@ -51,10 +60,7 @@ private:
         }
         fast = head;
         slow = head;
-        while(fast != NULL && fast->next != NULL) {
-            fast = fast->next->next;
-            slow = slow->next;
-        }
+        sort(head, mid, end);
         //走到这里 说明 fast 走到最后 slow 走到一半
         
 
