@@ -42,12 +42,12 @@ public:
         return head;
     }
 private:
-    void sort(ListNode *head, ListNode *end)
+    ListNode * sort(ListNode *head, ListNode *end)
     {
         struct ListNode *fast = NULL;
         struct ListNode *slow = NULL;
-        if(head == end || head->next == end) {
-            return;
+        if(head == end) {
+            return head;
         }
         fast = head;
         slow = head;
@@ -55,58 +55,77 @@ private:
             fast = fast->next->next;
             slow = slow->next;
         }
-        sort(head, slow);
         //走到这里 说明 fast 走到最后 slow 走到一半
-        sort(slow, end);
-
-        merge(head, slow, slow, end);
+        ListNode *headret = sort(head, slow);
+        ListNode *slowret = sort(slow, end);
+        return mergeTwoLists(headret, slowret);
     }
-    
-};
 
-struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
 
-    struct ListNode* ret = NULL;
-    struct ListNode* cur1 = NULL;
-    struct ListNode* cur2 = NULL;
-    struct ListNode* curret = NULL;
-    if (l1 == NULL) {
-        return l2;
-    }  
-    if (l2 == NULL) {
-        return l1;
-    }
-    cur1 = l1;
-    cur2 = l2;
-    while(cur1 != NULL && cur2 != NULL) {
-        if (cur1->val <= cur2->val) {
-            if (ret == NULL) {
-                ret = cur1;
-            }
-            else {
-                curret->next = cur1;
-            }
-            curret = cur1;
-            cur1 = cur1->next;
-        }else {
-            if (ret == NULL) {
-                ret = cur2;
-            }
-            else {
-                curret->next = cur2;
-            }
-            curret = cur2;
-            cur2 = cur2->next;
+        struct ListNode* ret = NULL;
+        struct ListNode* cur1 = NULL;
+        struct ListNode* cur2 = NULL;
+        struct ListNode* curret = NULL;
+        if (l1 == NULL) {
+            return l2;
+        }  
+        if (l2 == NULL) {
+            return l1;
         }
-        
+        cur1 = l1;
+        cur2 = l2;
+        while(cur1 != NULL && cur2 != NULL) {
+            if (cur1->val <= cur2->val) {
+                if (ret == NULL) {
+                    ret = cur1;
+                }
+                else {
+                    curret->next = cur1;
+                }
+                curret = cur1;
+                cur1 = cur1->next;
+            }else {
+                if (ret == NULL) {
+                    ret = cur2;
+                }
+                else {
+                    curret->next = cur2;
+                }
+                curret = cur2;
+                cur2 = cur2->next;
+            }
+
+        }
+        curret->next = cur1 == NULL ? cur2 : cur1;
+        return ret;
     }
-    curret->next = cur1 == NULL ? cur2 : cur1;
-    return ret;
-}
+};
 
 int main()
 {
-    std::cout << "Hello world" << std::endl;
+    ListNode L1(1);
+    ListNode L2(21);
+    ListNode L3(32);
+    ListNode L4(4);
+    ListNode L5(5);
+    ListNode L6(6);
+    ListNode L7(7);
+    ListNode L8(8);
+    ListNode L9(9);
+    L1.next = &L2;
+    L2.next = &L3;
+    L3.next = &L4;
+    L4.next = &L5;
+    L6.next = &L7;
+    L7.next = &L9;
+    L9.next = &L9;
+    merge(&L1, &L5, &L6, &L9);
+    ListNode *cur = &L1;
+    while(cur != NULL) {
+        std::cout << cur->val << std::endl;
+        cur = cur->next;
+    }
     return 0;
 }
 
