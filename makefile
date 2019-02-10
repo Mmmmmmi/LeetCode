@@ -1,3 +1,3 @@
 
-sortList:sortList.cpp
+MinStack:MinStack.cpp
 	g++ -g -Wall -std=c++11  $^ -o $@
