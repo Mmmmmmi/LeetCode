@@ -26,6 +26,19 @@ struct ListNode {
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+#if 0
+        //大佬代码
+        ListNode *curA = NULL;
+        ListNode *curB = NULL;
+        if (headA == NULL || headB == NULL) return NULL;
+        curA = headA;
+        curB = headB;
+        while(curA != curB) {
+            curA = curA == NULL ? headB : curA->next;
+            curB = curB == NULL ? headA : curB->next;
+        }
+        return curA;
+#else
         ListNode *curA = NULL;
         ListNode *curB = NULL;
         int nodenumA = 0;
@@ -69,7 +82,8 @@ public:
             curA = curA->next;
             curB = curB->next;
         }
-        return NULL;*/
+        return NULL;
+#endif
     }
 };
 
