@@ -24,9 +24,10 @@ private:
     void createheap(vector<int>& nums)
     {
         //从最后一个非叶子结点开始
-        size_t root = (nums.size() - 1 - 1) / 2;
-        for(size_t i = nums.size() - 1; i > 0; i--) {
-            down(nums, i);
+        int root = (nums.size() - 1 - 1) / 2;
+        while(root >= 0)
+            adjustdown(nums, root);
+            root--;
         }
     }
     void adjustdown(vector<int>& nums, int i)
