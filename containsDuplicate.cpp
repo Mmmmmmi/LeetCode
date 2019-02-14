@@ -31,21 +31,48 @@ public:
         if (nums.size() == 0 || nums.size() == 1) {
             return false;
         } 
-        for (size_t i = 0; i < nums.size() - 1; i++) {
-            for (size_t j = 0; j < nums.size() - i - 1; j++) {
-                if (nums[j] > nums[j + 1]) {
-                    int temp = nums[j];
-                    nums[j] = nums[j + 1];
-                    nums[j + 1] = temp;
-                }   
-            }
-        }
+        quicksort(nums);
         for (size_t i = 0; i < nums.size() - 1; i++) {
             if (nums[i] == nums[i + 1]) {
                 return true;
             }
         }
         return false;
+    }
+private:
+
+    void swap(vector<int>& nums, size_t left, size_t right)
+    {
+        int temp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = temp;
+    }
+
+    void quicksort(vector<int>& nums)
+    {
+        
+    }
+
+    void adjust(vector<int>& nums, size_t left, size_t right)
+    {
+        //left表示开始的下标  right表示结束的下标
+        size_t start = left;
+        size_t end = right;
+        size_t mid = left + (left + right) / 2;
+        if (left >= right) {
+            return;
+        }
+        while(start < end) {
+            while (start < end && nums[start] < nums[mid]) {
+                start++;
+            }
+            //走到这里  就说明 在mid的左边遇见了比mid大的
+            while (end > start && nums[end] > nums[mid]) {
+                end--;
+            }
+            //走到这里  就说明 在mid的右边遇见了比mid小的
+            swap(nums, start, end);
+        }
     }
     
 };
