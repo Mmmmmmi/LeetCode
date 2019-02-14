@@ -31,7 +31,7 @@ public:
         if (nums.size() == 0 || nums.size() == 1) {
             return false;
         } 
-        quicksort(nums);
+        quicksort(nums, 0, nums.size() - 1);
         for (size_t i = 0; i < nums.size() - 1; i++) {
             if (nums[i] == nums[i + 1]) {
                 return true;
@@ -48,37 +48,42 @@ private:
         nums[right] = temp;
     }
 
-    void quicksort(vector<int>& nums)
+    void quicksort(vector<int>& nums, size_t left, size_t right)
     {
-        
+       size_t start = left;
+       size_t end = right;
+       if (start >= end) {
+           return;
+       }
+       int i = adjust(nums, start, end);
+       quicksort(nums, start, i);
+       quicksort(nums, i + 1, end);
     }
 
-    void adjust(vector<int>& nums, size_t left, size_t right)
+    int adjust(vector<int>& nums, size_t left, size_t right)
     {
         //left表示开始的下标  right表示结束的下标
         size_t start = left;
-        size_t end = right;
-        size_t mid = left + (left + right) / 2;
-        if (left >= right) {
-            return;
-        }
+        size_t end = right - 1;
         while(start < end) {
-            while (start < end && nums[start] < nums[mid]) {
+            while (start < end && nums[start] < nums[right]) {
                 start++;
             }
             //走到这里  就说明 在mid的左边遇见了比mid大的
-            while (end > start && nums[end] > nums[mid]) {
+            while (end > start && nums[end] > nums[right]) {
                 end--;
             }
             //走到这里  就说明 在mid的右边遇见了比mid小的
             swap(nums, start, end);
         }
+        swap(nums, start, right);
+        return start;
     }
     
 };
 int main()
 {
-    vector<int> v{1, 2, 3, 4, 5};
+    vector<int> v{6, 23, 3, 4, 5};
     Solution s;
     cout << s.containsDuplicate(v) << endl;
     return 0;
