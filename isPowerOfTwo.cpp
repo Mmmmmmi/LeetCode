@@ -27,25 +27,40 @@ using namespace std;
 class Solution {
 public:
     bool isPowerOfTwo(int n) {
-        int i = 0;
+#if 0
+        int i = 2;
+        int j = 0;
+        if (n < 1) {
+            return false;
+        }
         if (n == 1) {
             return true;
         }
-        while(n != 0) {
-            i = n % 2;
-            n /= 2;
+        while((i << j) <= n) {
+            if ((i << j) == n) {
+                return true;
+            }
+            j++;
         }
-        if (i != 0) {
+        return false;
+#else
+        if (n < 1) {
             return false;
         }
-        return true;
+
+        if ((n & (n - 1)) == 0) {
+            return true;
+        }
+        return false;
+
+#endif
     }
 };
 
 int main()
 {
     Solution s;
-    cout << s.isPowerOfTwo(4) << endl;
+    cout << s.isPowerOfTwo(9) << endl;
     return 0;
 }
 
