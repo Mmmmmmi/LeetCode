@@ -1,4 +1,3 @@
 .PHONY:test
-test:isPowerOfTwo.cpp
+test:maxSubArray.cc
 	g++ -g -Wall -std=c++11  $^ -o $@
-clean:clean
