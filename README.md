@@ -1,2 +1,2 @@
 # LeetCode
-记录刷LeetCode时的代码
+记录做过的LeetCode上的题
