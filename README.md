@@ -1,2 +1,3 @@
 # LeetCode
-记录做过的LeetCode上的题
+    记录在LeetCode上做过的题
+    网页直接完成的不在目录中
