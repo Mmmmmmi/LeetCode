@@ -47,12 +47,12 @@ public:
 		ListNode* prev = nullptr;
 		ListNode* cur = head;
 		ListNode* next = head->next;
-		while (cur != tail)
+		while (prev != tail)
 		{
+			next = cur->next;
 			cur->next = prev;
 			prev = cur;
 			cur = next;
-			next = cur->next;
 		}
 		swap(head, tail);
 	}
@@ -73,12 +73,12 @@ public:
 				if (prev == nullptr)
 				{
 					reverseList(head, right);
-					prev = right;
 				}
 				else
 				{
 					reverseList(prev->next, right);
 				}
+				prev = right;
 				right->next = next;
 				right = next;
 			}
@@ -94,17 +94,19 @@ int main()
 	ListNode* l3 = new ListNode(3);
 	ListNode* l4 = new ListNode(4);
 	ListNode* l5 = new ListNode(5);
+	ListNode* l6 = new ListNode(6);
 	l1->next = l2;
 	l2->next = l3;
 	l3->next = l4;
 	l4->next = l5;
-	l5->next = nullptr;
+	l5->next = l6;
 	Solution s;
-	ListNode* ret = s.reverseKGroup(l1, 2);
-	while (ret != nullptr)
+	//s.reverseList(l1, l5);
+	ListNode* cur = s.reverseKGroup(l1, 2);
+	while (cur != nullptr)
 	{
-		cout << ret->val << endl;
-		ret = ret->next;
+		cout << cur->val << endl;
+		cur = cur->next;
 	}
 	return 0;
 }
