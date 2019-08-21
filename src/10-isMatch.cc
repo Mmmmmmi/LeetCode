@@ -64,6 +64,7 @@ bool isMatch(string s, string p) {
  */
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Solution {
@@ -109,7 +110,10 @@ public:
 		//s == empty || * 匹配完成
 		return isMatch(s, p.substr(2));
 	}
-#else
+#endif
+
+
+#if 0
 	bool isMatch(string s, string p)
 	{
 		if (p.empty()) return s.empty();
@@ -123,13 +127,84 @@ public:
 		}
 	}
 #endif
+
+	void Print(vector<vector<bool>>& output)
+	{
+		for (auto e : output)
+		{
+			for (auto ee : e)
+			{
+				cout << ee << " ";
+			}
+			cout << endl;
+		}
+	}
+
+
+
+#if 1
+	bool isMatch(string s, string p) {
+		int slen = s.size();
+		int plen = p.size();
+		vector<vector<bool>> dp(slen + 1, vector<bool>(plen + 1, false));
+		/*
+		   c * a * b
+		a
+		a
+		b
+
+		*/
+		//递归 可以从前往后 也可以从后往前，这里先用从后往前
+		//从后往前的话，那么dp[i][j] 表示的就是 s[i, s.size()) p[j, p.size()) 的匹配情况
+		//那么  就得从后往前求
+
+		//从后往前的情况下，当
+		dp[slen][plen] = true;   //两个都到结尾了，所以两个都是空 因此是匹配的;
+
+		/*
+		   c * a * b
+		a
+		a
+		b
+		*/
+
+		for (int i = slen; i >= 0; --i)  //这里相等是因为
+										//s = aa      p = a*  情况
+		{
+			cout << "i == " << i <<  endl;
+			for (int j = plen - 1; j >= 0; --j)   //因为这里j 会判断后面的字符 然后 dp的大小其实是比正常的多一个行和列大小的  所以 这里 -1 就好
+			{
+				//这波 比较的 应该是 s[i] 和 p[j]
+				//当时如果  p[j + 1] == '*'  ，那么情况就有可能不用 所以应该也判断它的情况
+				//这里求的是 当前位置的 s[i] 和 p[j] 的情况  只是单纯的两个字符想不想等
+				bool curMatch = (i < slen && (s[i] == p[j] || p[j] == '.'));  
+
+				if (j + 1 < plen && (p[j + 1] == '*'))
+				{
+					//就是看 p 串的 j 字符(p[j]) 后面 是不是 *
+					//如果是的话  那么  说明 p[j] 可能出现 0 次 或者 多次
+					dp[i][j] = dp[i][j + 2]  //出现0次
+						|| curMatch && dp[i + 1][j];  //出现一次或者多次的情况 就看 出现这种情况后，剩下的字符串能不能匹配
+				}
+				else
+				{
+					//如果它后面不是 *  那就判断两个想不想等就好了
+					dp[i][j] = curMatch && dp[i + 1][j + 1];   //不光要管本字符的情况，还要管后面的是否匹配成功了
+				}
+
+			}
+			Print(dp);
+		}
+		return dp[0][0];
+	}
+#endif 
 };
 
 
 int main()
 {
-	string s = "1";
-	string p = ".*";
+	string s = "aab";
+	string p = "c*a*b";
 	Solution so;
 	cout << so.isMatch(s, p) << endl;
 	return 0;
