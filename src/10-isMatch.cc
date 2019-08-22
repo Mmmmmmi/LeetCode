@@ -128,6 +128,10 @@ public:
 	}
 #endif
 
+#if 0
+    // 递归的自底向上方法
+    // 
+    // 
 	void Print(vector<vector<bool>>& output)
 	{
 		for (auto e : output)
@@ -142,7 +146,6 @@ public:
 
 
 
-#if 1
 	bool isMatch(string s, string p) {
 		int slen = s.size();
 		int plen = p.size();
@@ -198,6 +201,81 @@ public:
 		return dp[0][0];
 	}
 #endif 
+
+
+    //动归的自顶向下算法
+    //
+    //
+    //
+    //
+    //
+    // 这里面的 dp[i][j]   存储的就是 s[i, i.size()) p[j, j.size()) 是否匹配
+
+	void Print(vector<vector<int>>& output)
+	{
+		for (auto e : output)
+		{
+			for (auto ee : e)
+			{
+				cout << ee << " ";
+			}
+			cout << endl;
+		}
+	}
+
+    bool _isMatch(string s, string p, int i, int j, vector<vector<int>>& dp)
+    {
+        //判断情况
+        if (dp[i][j] != -1)
+        {
+            //已经求过是否匹配了，直接返回就好
+            return dp[i][j] == 1;
+        }
+        bool result = false;
+        if (j == p.size())
+        {
+            //如果 p为空  那么 s 也得为空
+            result = i == s.size();
+        }
+        else
+        {
+            //求出当前字符的匹配状态
+            bool curMatch = i < s.size() && (s[i] == p[j] || p[j] == '.');
+            //判断p[j + 1] 有没有可能为 '*'
+            if ((j + 1 < p.size()) && (p[j + 1] == '*'))
+            {
+                cout << "result = _isMatch(s, p, i, j + 2, dp) || (curMatch && _isMatch(s, p, i + 2, j, dp))); "<< "  i  == "  << i   << "   j + 2 ==  " << j + 2 << "  i + 1 == " << i + 1 << "  j == " << j  << endl;
+                //这里也是两种情况  * 前面的字符出现 0次  和 出现多次
+                result = (
+                          //0次  那么就是 把 * 和它前面的那个字符都跳过了
+                          _isMatch(s, p, i, j + 2, dp)   
+                          //这里等于直接跳过当前的字符 然后出现两次或者更多的情况 交给后面去处理
+                          || (curMatch && _isMatch(s, p, i + 1, j, dp)));  
+                Print(dp);
+            }
+            else
+            {
+                //那么 当它后面不是 ‘*’ 的时候，就只需要判断 自己当前字符是否匹配 和 后面 的是不是匹配了
+                cout << "result = curMatch && _isMatch(s, p, i + 1, j + 1, dp);" << "   i + 1 == "  << i + 1  << "   j + 1 ==  " << j + 1 << endl;
+                result = curMatch && _isMatch(s, p, i + 1, j + 1, dp);
+                Print(dp);
+            }
+        }
+        dp[i][j] = result ? 1 : 0; 
+        return result;
+    }
+
+
+    bool isMatch(string s, string p) 
+    {
+        //这里要用到递归的话 就再调用一个函数叭   
+        //先创建动归的dp 
+        //   -1 表示 没有求值的  0 表示 不匹配   1 表示匹配
+        vector<vector<int>> dp(s.size() + 1, vector<int>(p.size() + 1, -1));
+        //创建好之后 开始调用递归函数 进行匹配
+        return _isMatch(s, p, 0, 0, dp);
+    }
+
 };
 
 
@@ -205,6 +283,8 @@ int main()
 {
 	string s = "aab";
 	string p = "c*a*b";
+    cout << "s == " << s << endl;
+    cout << "p == " << p << endl;
 	Solution so;
 	cout << so.isMatch(s, p) << endl;
 	return 0;
